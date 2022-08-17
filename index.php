@@ -10,16 +10,31 @@ $update = json_decode($content , true);
 if(isset($update['message'])){
     $chat_id = $update['message']['chat']['id'];
     $user_name = $update['message']['from']['first_name'];
+    $user_id = $update['message']['from']['id'];
     $message_id = $update['message']['message_id'];
     $text = $update['message']['text'];
 }else if(isset($update['callback_query'])){
     callbackMessage($update);
 }
 
+$parametrs = array(
+    'user_id'=>$user_id,
+);
+$photo= new bot_telegram(API_URL1);
+$user_photo = $photo->sendMessage('getUserProfilePhotos',$parametrs);
+$user_photo = json_decode($user_photo,true);
+$user_photos_file_id= $user_photo['result']['photos']['0']['2']['file_id'];
+$parametrs = array(
+    'chat_id'=>$chat_id,
+    'photo'=>$user_photos_file_id,
+    'caption'=>'it is your pictur'
+);
+$photo->sendMessage('sendPhoto',$parametrs);
+exit;
 
-$value = new lib(SERVER_NAME,USER_NAME,USER_PASSWORD,DB_NM);
+// $value = new lib(SERVER_NAME,USER_NAME,USER_PASSWORD,DB_NM);
 
-$text = ANS($text,$value);
+// $text = ANS($text,$value);
 
 // $parametrs = array(
 //     'chat_id'=>$chat_id,
