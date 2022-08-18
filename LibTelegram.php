@@ -15,7 +15,7 @@ class bot_telegram {
     }
 
 
-    public function sendMessage($method,$parametrs){
+    public function Request($method,$parametrs){
         if(!$parametrs){
             $parametrs = array();
         }
